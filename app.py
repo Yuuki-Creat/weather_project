@@ -2,11 +2,16 @@ import requests
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
+import render_template
 
 app = Flask(__name__)
 CORS(app)
 
 API_KEY = os.getenv("OPENWEATHERMAP_API_KEY")
+
+@app.route("/")
+def index():
+    return render_template("index.html")
 
 @app.route("/api/weather")
 def get_weather():
