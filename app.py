@@ -11,7 +11,7 @@ API_KEY = os.getenv("OPENWEATHERMAP_API_KEY")
 @app.route("/api/weather")
 def get_weather():
     city = request.args.get("city")
-    url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEY}&units=metric&lang=ja"
+    url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEY}&units=metric&lang=ja"
     response = requests.get(url).json()
     
     return jsonify({
