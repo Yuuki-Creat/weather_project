@@ -1,8 +1,7 @@
 import requests
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import os
-import render_template
 
 app = Flask(__name__)
 CORS(app)
