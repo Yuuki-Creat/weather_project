@@ -1,0 +1,10 @@
+body {
+    font-family: sans-serif;
+    background: linear-gradient(to right, #8ec5fc, #e0c3fc);
+    text-align: center;
+    padding: 2em;
+}
+input, button {
+    padding: 0.5em;
+    margin: 0.5em;
+}
