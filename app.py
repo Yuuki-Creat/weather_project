@@ -17,12 +17,17 @@ def get_weather():
     city = request.args.get("city")
     url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEY}&units=metric&lang=ja"
     response = requests.get(url).json()
+    print(f"API Response: {response}")  # デバッグ用にAPIレスポンスを出力
     
     return jsonify({
         "city": response.get("name"),
-        "temp": response.get("main", {}).get("temp"),
+        "temp_min": response.get("main", {}).get("temp_min"),
+        "temp_max": response.get("main", {}).get("temp_max"),
+        "humidity": response.get("main", {}).get("humidity"),
         "description": response.get("weather", [{}])[0].get("description"),
-        "icon": response.get("weather", [{}])[0].get("icon")
+        "icon": response.get("weather", [{}])[0].get("icon"),
+        "sunset": response.get("sys", {}).get("sunset"),
+        "sunrise": response.get("sys", {}).get("sunrise"),
     })
 
 if __name__ == "__main__":

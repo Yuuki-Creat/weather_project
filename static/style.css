@@ -1,0 +1,19 @@
+body {
+  background: linear-gradient(to right, #74ebd5, #acb6e5);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.card {
+  border: none;
+}
+
+#weatherResults img {
+  width: 100%;
+}
+
+::placeholder {
+  color: gray;
+  opacity: 1;
+}
