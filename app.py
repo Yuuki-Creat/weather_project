@@ -21,13 +21,15 @@ def get_weather():
     
     return jsonify({
         "city": response.get("name"),
-        "temp_min": response.get("main", {}).get("temp_min"),
-        "temp_max": response.get("main", {}).get("temp_max"),
+        "temp": response.get("main", {}).get("temp"),
+        # "temp_min": response.get("main", {}).get("temp_min"),
+        # "temp_max": response.get("main", {}).get("temp_max"),
         "humidity": response.get("main", {}).get("humidity"),
         "description": response.get("weather", [{}])[0].get("description"),
         "icon": response.get("weather", [{}])[0].get("icon"),
         "sunset": response.get("sys", {}).get("sunset"),
         "sunrise": response.get("sys", {}).get("sunrise"),
+        "wind_speed": response.get("wind", {}).get("speed"),
     })
 
 if __name__ == "__main__":

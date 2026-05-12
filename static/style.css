@@ -9,6 +9,19 @@ body {
   border: none;
 }
 
+.card {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.card img{
+  width: 150px;
+}
+
+.display-3 {
+  color: #0d6efd;
+}
+
 #weatherResults img {
   width: 100%;
 }
