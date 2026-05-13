@@ -15,9 +15,22 @@ def index():
 @app.route("/api/weather")
 def get_weather():
     city = request.args.get("city")
-    url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEY}&units=metric&lang=ja"
+    lat = request.args.get("lat")
+    lon = request.args.get("lon")
+
+    if lat and lon:
+        url = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API_KEY}&units=metric&lang=ja"
+    elif city:
+        url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEY}&units=metric&lang=ja"
+    else:
+        return jsonify({"error": "City or coordinates are required"}), 400
+
     response = requests.get(url).json()
+    print(f"Request URL: {url}")  # デバッグ用にリクエストURLを出力
     print(f"API Response: {response}")  # デバッグ用にAPIレスポンスを出力
+
+    if response.get("cod") != 200:
+        return jsonify({"error": response.get("message")}), 400
     
     return jsonify({
         "city": response.get("name"),
