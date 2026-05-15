@@ -1,5 +1,6 @@
 const weatherResult = document.getElementById('weatherResult');
 const loading = document.getElementById('loading');
+const themaToggleBtn = document.getElementById('themaToggleBtn');
 
 function displayWeather(data) {
     weatherResult.innerHTML = `
@@ -102,3 +103,22 @@ document.getElementById('clearBtn')
         weatherResult.innerHTML = '';
         document.getElementById('cityInput').value = '';
     });
+
+if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-mode');
+    themaToggleBtn.innerHTML = 'ライトモード';
+}
+
+themaToggleBtn.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+
+    if (document.body.classList.contains('dark-mode')) {
+        localStorage.setItem('theme', 'dark');
+        themaToggleBtn.innerHTML = 'ライトモード';
+    }
+
+    else {
+        localStorage.setItem('theme', 'light');
+        themaToggleBtn.innerHTML = 'ダークモード';
+    }
+});

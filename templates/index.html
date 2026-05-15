@@ -10,9 +10,12 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     </head>
     <body>
-        <div class="container mt-5">
+        <div class="container mt-5 dark-mode">
             <div class="card shadow-lg p-4 rounded">
                 <h1 class="text-center mb-4">天気予報アプリ</h1>
+                <div class="text-end mb-3">
+                    <button id="themaToggleBtn" class="btn btn-dark">ダークモード</button>
+                </div>
                 <form id="weatherForm">
                     <div class="input-group mb-3">
                         <input type="text" id="cityInput" class="form-control" placeholder="都市名を入力">
