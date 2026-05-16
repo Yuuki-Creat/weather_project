@@ -34,6 +34,54 @@ function displayWeather(data) {
         </div>
     `;
 }
+
+async function displayForecast(data) {
+    const forecastResutl = document.getElementById('forecastResult');
+    const city = document.getElementById('cityInput').value.trim() || data.city;
+    try {
+        const response = await fetch(`/api/forecast?city=${city}`);
+        const data = await response.json();
+
+        if (data.error) {
+            forecastResult.innerHTML = `
+                <p class="text-danger">${data.error}</p>
+            `;
+            return;
+        }
+
+        let forecastHTML = `
+            <h3 class="mt-5 mb-4 text-center">週間天気</h3>
+            <div class="row g-3">
+        `;
+
+        data.forEach(day => {
+            const date = new Date(day.date);
+            const formattedDate = `${date.getMonth() + 1}/${date.getDate()}`;
+            forecastHTML += `
+                <div class="col-6 col-md-2">
+                    <div class="card h-100 shadow-sm border-0 rounded-4">
+                        <div class="card-body text-center">
+                            <h5>${formattedDate}</h5>
+                            <img src="https://openweathermap.org/img/wn/${day.icon}@2x.png">
+                            <p class="small">${day.description}</p>
+                            <h4>${Math.round(day.temp)}℃</h4>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+
+        forecastHTML += '</div>';
+        forecastResult.innerHTML = forecastHTML;
+
+    } catch (error) {
+        console.error(error);
+        forecastResult.innerHTML = `
+            <p class="text-danger">週間天気の取得に失敗しました。</p>
+        `;
+    }
+}
+
 document.getElementById('weatherForm')
         .addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -55,6 +103,7 @@ document.getElementById('weatherForm')
                 }
                 
                 displayWeather(data);
+                displayForecast(data);
 
             } catch (error) {
                 loading.classList.add('d-none');
@@ -84,6 +133,8 @@ document.getElementById('currentLocationBtn')
                     return;
                 }
                 displayWeather(data);
+                displayForecast(data);
+
             } catch (error) {
                 weatherResult.innerHTML = `<p class="text-danger">現在地の取得に失敗しました。</p>`;
                 console.error(error);

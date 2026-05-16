@@ -44,6 +44,30 @@ def get_weather():
         "sunrise": response.get("sys", {}).get("sunrise"),
         "wind_speed": response.get("wind", {}).get("speed"),
     })
+    
+@app.route("/api/forecast")
+def get_forecast():
+    
+    city = request.args.get("city")
+    
+    url = f"https://api.openweathermap.org/data/2.5/forecast?q={city}&appid={API_KEY}&units=metric&lang=ja"
+
+    response = requests.get(url).json()
+
+    if response.get("cod") != "200":
+        return jsonify({"error": response.get("message")}), 400
+
+    forecast_list = []
+    
+    for item in response["list"]:
+        if "12:00:00" in item["dt_txt"]:
+            forecast_list.append({
+                "date": item["dt_txt"],
+                "temp": item["main"]["temp"],
+                "description": item["weather"][0]["description"],
+                "icon": item["weather"][0]["icon"],
+            })
+    return jsonify(forecast_list)
 
 if __name__ == "__main__":
     app.run(debug=True)
