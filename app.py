@@ -26,8 +26,6 @@ def get_weather():
         return jsonify({"error": "City or coordinates are required"}), 400
 
     response = requests.get(url).json()
-    print(f"Request URL: {url}")  # デバッグ用にリクエストURLを出力
-    print(f"API Response: {response}")  # デバッグ用にAPIレスポンスを出力
 
     if response.get("cod") != 200:
         return jsonify({"error": response.get("message")}), 400
