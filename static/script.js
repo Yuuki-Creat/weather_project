@@ -1,12 +1,12 @@
 const weatherResult = document.getElementById('weatherResult');
 const loading = document.getElementById('loading');
-const themaToggleBtn = document.getElementById('themaToggleBtn');
+const themeToggleBtn = document.getElementById('themeToggleBtn');
 
 function displayWeather(data) {
     weatherResult.innerHTML = `
-        <div class="card shadow-lg border-0 rounded-4 mt4">
+        <div class="card shadow-lg border-0 rounded-4 mt-4">
             <div class="card-body text-center">
-                <h2 class="card-title" mb-3>${data.city}の天気</h2>
+                <h2 class="card-title mb-3">${data.city}の天気</h2>
                             <img src="https://openweathermap.org/img/wn/${data.icon}@4x.png" alt="weather icon">
                             <p class="fs-4 text-muted">天気: ${data.description}</p>
                             <h1 class="display-3 fw-bold">気温: ${Math.round(data.temp)}°C</h1>
@@ -14,7 +14,7 @@ function displayWeather(data) {
                             <!-- <p class="fs-4">最低気温: ${data.temp_min}°C</p> -->
                             <div class="row mt-4">
                                 <div class="col-4">
-                                    <h5>湿度</h5>\
+                                    <h5>湿度</h5>
                                     <p class="fs-5">${data.humidity}%</p>
                                 </div>
                                 <div class="col-4">
@@ -36,7 +36,7 @@ function displayWeather(data) {
 }
 
 async function displayForecast(data) {
-    const forecastResutl = document.getElementById('forecastResult');
+    const forecastResult = document.getElementById('forecastResult');
     const city = document.getElementById('cityInput').value.trim() || data.city;
     try {
         const response = await fetch(`/api/forecast?city=${city}`);
@@ -87,6 +87,7 @@ document.getElementById('weatherForm')
             e.preventDefault();
             const city = document.getElementById('cityInput').value.trim();
             weatherResult.innerHTML = '';
+            forecastResult.innerHTML = '';
             loading.classList.remove('d-none');
 
             try {
@@ -118,6 +119,7 @@ document.getElementById('weatherForm')
 document.getElementById('currentLocationBtn')
     .addEventListener('click', () => {
         weatherResult.innerHTML = '';
+        forecastResult.innerHTML = '';
         loading.classList.remove('d-none');
         navigator.geolocation.getCurrentPosition(async (position) => {
             const lat = position.coords.latitude;
@@ -153,23 +155,39 @@ document.getElementById('clearBtn')
     .addEventListener('click', () => {
         weatherResult.innerHTML = '';
         document.getElementById('cityInput').value = '';
+        forecastResult.innerHTML = '';
+        
     });
 
 if (localStorage.getItem('theme') === 'dark') {
     document.body.classList.add('dark-mode');
-    themaToggleBtn.innerHTML = 'ライトモード';
+    themeToggleBtn.innerHTML = 'ライトモード';
 }
 
-themaToggleBtn.addEventListener('click', () => {
+themeToggleBtn.addEventListener('click', () => {
     document.body.classList.toggle('dark-mode');
 
     if (document.body.classList.contains('dark-mode')) {
         localStorage.setItem('theme', 'dark');
-        themaToggleBtn.innerHTML = 'ライトモード';
+        themeToggleBtn.innerHTML = 'ライトモード';
     }
 
     else {
         localStorage.setItem('theme', 'light');
-        themaToggleBtn.innerHTML = 'ダークモード';
+        themeToggleBtn.innerHTML = 'ダークモード';
     }
 });
+
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker
+            .register('/static/sw.js')
+            .then(registration => {
+                console.log('Service Worker registered:', registration);
+            })
+
+            .catch(error => {
+                console.error('Service Worker registration failed:', error);
+            });
+    });
+}

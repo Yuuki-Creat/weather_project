@@ -37,21 +37,24 @@ body.dark-mode {
 }
 
 body.dark-mode .card {
-  background: rgba(40, 40, 40, 0.95);
-  color: white;
+  background: rgba(40, 40, 40, 0.95) !important;
+  color: white !important;
 }
 
 body.dark-mode .form-control {
-  background: #333;
-  color: white;
-  border: 1px solid #555;
+  background: #333 !important;
+  color: white !important;
+  border: 1px solid #555 !important;
 }
 
-body.dark-mode .placeholder {
-  background-color: #333;
-  color: white;
+body.dark-mode .form-control::placeholder {
+  color: #ccc !important;
 }
 
 body.dark-mode .text-muted {
   color: #ccc !important;
+}
+
+body.dark-mode.btn-dark {
+  background: #555 !important;
 }
